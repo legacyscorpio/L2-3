@@ -15,109 +15,127 @@ int main()
 {
 	int digit,
 		alphabetLetter,
-		chASCII;
+		chASCIInum;
 	char ch;
 	char decision;
 	char repeat = 'y';
 
-	cout << "Enter a Y/y to convert a telephone number from letters to digits." << endl
-		<< "Enter any other letter to terminate the program. " << endl;
-	cin >> decision;
+	cout << "Enter a Y/y to convert a telephone number" 
+		 << "from letters to digits." 
+		 << endl
+		 << "Enter any other letter to terminate the program. " 
+		 << endl;
 
-	if (decision == 'y' || decision == 'Y')
+	cin.get(decision);									//User Decides if they want to start the program.
+
+	if (decision == 'y' || decision == 'Y')											
 	{
-		while (repeat == 'y' || repeat == 'Y')
+		while (repeat == 'y' || repeat == 'Y')						//While repeat is set to y, it will continue to run.
 		{
 			cout << endl
-				 << "Enter a telephone number using 7 or more letters" << endl
-				 << "for Prefix and number, only the first 7 letters are used" << endl
-				 << "and dashes '-' are ZEROES. underscores '_' are ONES" << endl
-				 << "ALL OTHER SYMBOLS ARE ignored." << endl
-				 << "-->:";
+				<< "Enter a telephone number using 7 or more letters" 
+				<< endl
+				<< "for Prefix and number, only the first 7 letters are used" 
+				<< endl
+				<< "and dashes '-' are ZEROES. underscores '_' are ONES"
+				<< endl
+				<< "ALL OTHER SYMBOLS ARE ignored." 
+				<< endl
+				<< "-->:";
 
-			cin.ignore(100, '\n');															//Clearing the buffer from trying to break the program.
-			cin.get(ch);
+			cin.ignore(100, '\n');							//Clearing the buffer in case of extra characters.
+			cin.get(ch);								//Get letters from user. 
 
 			cout << endl;
 			cout << "The corresponding telephone number is : ";
 
 
-			for (int i = 0; i <= 6; i++)
+			for (int i = 0; i <= 6; i++)						//Run loop that will run for the first 7 letters
 			{
 
-				chASCII = static_cast<int>(ch);
-				if (i == 3)
+				chASCIInum = static_cast<int>(ch);				//Get the ASCII index number of ch. 
+				if (i == 3)							//If i == 3 then add a '-'
 				{
 					cout << "-";
 				}
 
-				if (chASCII >= '0' && chASCII <= '9')
-				{
-					cout << endl << "Number Input Found. Terminating Program." << endl;
+				if (chASCIInum >= '0' && chASCIInum <= '9')			//if chASCII number ends up being between the ASCII range of numbers,
+				{								//then report error and exit. 
+					cout << endl 
+						 << "Number Input Found." 
+						 << "Terminating Program." 
+						 << endl;
 					ExitMessage();
 				}
 
-				switch (ch)																   //To capture empty or not enough numbers. 
+				switch (ch)							//To capture empty or not enough numbers. 
 				{
 				case ' ':
 				case '\n':
 				case '\t':
-					cout << endl << "Error, not enough numbers. Terminating Program.";
+					cout << endl 
+						 << "Error, not enough numbers." 
+						 << "Terminating Program.";
 					ExitMessage();
 					break;
 				}
-				if (ch == '-') 
+				if (ch == '-')							//Converting '-' to 0 and underscore '1'
 				{
 					digit = 0;
 					cout << digit;
 					cin.get(ch);
 					continue;
-				}																            //Converting '-' to 0 and underscore '1'
-				if (ch == '_') 
+				}																            
+				if (ch == '_')
 				{
 					digit = 1;
 					cout << digit;
 					cin.get(ch);
 					continue;
 				}
-					
 
-				if (chASCII >= static_cast<int>('A') && chASCII <= static_cast<int>('Z'))
+
+				if (chASCIInum >= static_cast<int>('A')				//if chASCII numbers are within range then,
+					&& chASCIInum <= static_cast<int>('Z'))			
 				{
-					alphabetLetter = chASCII - static_cast<int>('A');
-					letterToDigitConverter(alphabetLetter);									// See function for details 
+					alphabetLetter = chASCIInum - static_cast<int>('A');	//then subtract chASCII num from 'A' to get alphabet letter position.
+					letterToDigitConverter(alphabetLetter);			//See function for details 
 				}
 
-				if (chASCII >= static_cast<int>('a') && chASCII <= static_cast<int>('z'))
+				else if (chASCIInum >= static_cast<int>('a')			//if chASCII numbers are within range then,
+					&& chASCIInum <= static_cast<int>('z'))   
 				{
-					alphabetLetter = chASCII - static_cast<int>('a');
-					letterToDigitConverter(alphabetLetter);									// See function for details 
+					alphabetLetter = chASCIInum - static_cast<int>('a');	//then subtract chASCII num from 'A' to get alphabet letter position.
+					letterToDigitConverter(alphabetLetter);			//See function for details 
 				}
 				else
 				{
-					cout << endl << "Invalid Entry found. Terminating Program.";
+					cout << endl << "Invalid Entry found." 
+						 << "Terminating Program.";			//Capture any conditions that don't apply.
 					ExitMessage();
 				}
 
 
 
-				cin.get(ch);
+				cin.get(ch);							//Get next letter. 
 			}
 
-			
-			cout << endl << endl
-				<< "To process another phone number, enter Y/y" << endl
-				<< "Enter any other letter to terminate the program." << endl;
 
-			cin.ignore(100, '\n');															//Clearing the buffer.
-			cin >> repeat;
+			cout << endl 
+				 << endl
+				 << "To process another phone number, enter Y/y" << endl
+				 << "Enter any other letter to terminate the program." 
+				 << endl;
+
+			cin.ignore(100, '\n');							//Clearing the buffer to avoid extra characters in the buffer.
+			cin.get(repeat);							//Get decision to repeat.
 		}
 	}
 
 	else
 	{
 		cout << "Exiting Program.";
-		ExitMessage();																	  //see function for details.
+		ExitMessage();									//see function for details.
 		return 0;
 	}
 
@@ -128,14 +146,15 @@ int main()
 }
 
 
-void letterToDigitConverter(int alphabetL)												//Conversion from Letters to Digits corresponding to telephone number pads. 
-{
-	if (0 <= alphabetL && alphabetL < 26)
+void letterToDigitConverter(int alphabetL)							//Conversion from Letters to Digits corresponding to telephone number pads, 
+{												//by using the alphabet letter position and then calculating it into 
+	if (0 <= alphabetL && alphabetL < 26)							//phone digits to represent numbers on phone keypad. 
 	{
 		int digit;
 		digit = (alphabetL / 3) + 2;
 
-		if (((alphabetL / 3 == 6) || (alphabetL / 3 == 7)) && (alphabetL % 3 == 0))
+		if (((alphabetL / 3 == 6) || (alphabetL / 3 == 7)) 
+			&& (alphabetL % 3 == 0))
 			digit = digit - 1;
 		if (digit > 9)
 			digit = 9;
@@ -144,14 +163,13 @@ void letterToDigitConverter(int alphabetL)												//Conversion from Letters 
 	}
 }
 
-void ExitMessage()																		// Exit message and exits the program.
+void ExitMessage()										//Exit message and exits the program.
 {
 	char q;
 	cout << "\nPress any key to Exit.";
-	cin.clear();																		// Clears the cin failure state to make sure exit pauses properly.
-	cin.ignore(100, '\n');
+	cin.clear();										//Clears the cin failure state to make sure exit pauses properly.
+	cin.ignore(100, '\n');															
 	cin.get(q);
 
 	exit(EXIT_FAILURE);
 }
-
